@@ -1,0 +1,56 @@
+@import "../../index.scss";
+
+main {
+  font-family: "Courier New", Courier, monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  height: 90vh;
+  margin: 5vh auto;
+  //background-color: gray;
+  position: relative;
+  .speaker-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 35px;
+    fill: white;
+  }
+  .profile-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 35px;
+    cursor: pointer;
+  }
+  .intro-text {
+    text-align: center;
+    color: white;
+    p {
+      margin: 20px 0px;
+    }
+    h1 {
+      font-size: 50px;
+      margin: 20px 0px;
+      font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    }
+    button {
+      font-family: "Courier New", Courier, monospace;
+      border-radius: 26px;
+      padding: 12px 24px;
+      border: 1px solid $color3;
+      background-color: $color1;
+      color: rgb(226, 242, 255);
+      cursor: pointer;
+    }
+  }
+  .foot-text {
+    position: absolute;
+    bottom: 0;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
