@@ -52,5 +52,11 @@ main {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    .admin-login {
+      cursor: pointer;
+    }
+    .join-partner {
+      cursor: pointer;
+    }
   }
 }

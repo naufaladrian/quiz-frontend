@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import mute_volume from "../../assets/icon/volume-mute.svg";
 import person from "../../assets/icon/person-circle.svg";
 import "./HomeStyle.scss";
@@ -6,15 +6,52 @@ import Star from "../../assets/star-bg/Star.js";
 import Modal from "../../component/modal/Modal";
 import PilihSekolah from "../../component/modal/modalContent/PilihSekolah";
 import Profile from "../../component/modal/modalContent/Profile";
+import AdminLogin from "../../component/modal/modalContent/AdminLogin";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { editProfile } from "../../store/dataSlice";
+import PilihMateri from "../../component/modal/modalContent/PilihMateri";
+
 function Home() {
+  const dispatch = useDispatch();
+  const { profile } = useSelector((state) => state.data);
   const [ispopup, setPopup] = useState(false);
   const [profileActive, setProfileActive] = useState(false);
+  const [adminModal, setAdminModal] = useState(false);
+  const [materiModal, setMateriModal] = useState(false);
+  const [schoolName, setSchoolName] = useState("");
+
+  const getSchoolName = async () => {
+    const schName = await axios.get("/v1/api/user", {
+      headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+    });
+    setSchoolName(schName.data.data.schoolId.name);
+  };
   const closeModal = () => {
     setPopup(false);
-  };
-  const closeProfile = () => {
     setProfileActive(false);
+    setAdminModal(false);
+    setMateriModal(false);
   };
+  const editDataProfile = async (username, email, urlProfile) => {
+    const respons = await axios.put(
+      "/v1/api/user",
+      {
+        email: email,
+        urlProfile: urlProfile,
+        username: username,
+      },
+      {
+        headers: { Authorization: "Bearer " + sessionStorage.getItem("token") },
+      }
+    );
+    dispatch(editProfile({ profile: respons.data.data }));
+  };
+  useEffect(() => {
+    getSchoolName();
+  }, []);
+
   return (
     <>
       <Star />
@@ -32,18 +69,44 @@ function Home() {
             Quizz, Laman Web Yang Menyediakan Kumpulan Kuis Untuk Mengasah
             Kemampuanmu!
           </p>
-          <button onClick={() => setPopup(true)}>Mulai Bermain</button>
+          <button
+            onClick={() => {
+              localStorage.getItem("schoolId")
+                ? setMateriModal(true)
+                : setPopup(true);
+            }}
+          >
+            Mulai Bermain
+          </button>
         </div>
         <div className="foot-text">
-          <p>Admin Login</p>
+          <p className="admin-login" onClick={() => setAdminModal(true)}>
+            Admin Login
+          </p>
           <p>&#169;Copyrights{new Date().getFullYear()}</p>
-          <p>Join Partner School</p>
+          <p className="join-partner">Join Partner School</p>
         </div>
-        <Modal popupControl={ispopup}>
+        <Modal popupControl={ispopup} closePopup={closeModal}>
           <PilihSekolah closeModal={closeModal} />
         </Modal>
-        <Modal popupControl={profileActive}>
-          <Profile closeProfile={closeProfile} />
+        <Modal popupControl={profileActive} closePopup={closeModal}>
+          <Profile
+            closeProfile={closeModal}
+            username={profile.username}
+            school={
+              localStorage.getItem("schoolId") ? schoolName : "belum terdaftar"
+            }
+            email={profile.email ? profile.email : "belum terdaftar"}
+            img={profile.urlProfile}
+            userId={profile.id}
+            editProfile={editDataProfile}
+          />
+        </Modal>
+        <Modal popupControl={adminModal} closePopup={closeModal}>
+          <AdminLogin closeAdmin={closeModal} />
+        </Modal>
+        <Modal popupControl={materiModal} closePopup={closeModal}>
+          <PilihMateri closeMateri={closeModal} />
         </Modal>
       </main>
     </>

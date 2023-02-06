@@ -11,6 +11,13 @@ main {
     left: 0;
     cursor: pointer;
   }
+  .nama-materi {
+    color: white;
+    position: absolute;
+    top: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
   .answer-button {
     border: none;
     background-color: transparent;
@@ -72,6 +79,17 @@ main {
         &:hover {
           transform: scale(1.05);
         }
+      }
+      .answer-active {
+        transform: scale(1.05);
+        background-color: lighten($color: $color1, $amount: 10%);
+        cursor: pointer;
+        text-align: center;
+        padding: 20px;
+        border: 1px solid $color3;
+        color: white;
+        font-family: $monospace;
+        font-size: 16px;
       }
     }
   }

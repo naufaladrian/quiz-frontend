@@ -1,1 +1,49 @@
 @import "../../index.scss";
+.finish-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  .photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+  }
+  .congrats {
+    margin-bottom: 50px;
+    display: flex;
+    height: 40%;
+    width: 60%;
+    align-items: flex-end;
+    justify-content: space-between;
+    img {
+      width: 200px;
+    }
+    .img-mid {
+      align-self: flex-start;
+      width: 250px;
+    }
+    .img-right {
+      height: 200px;
+      width: 200px;
+    }
+  }
+  .congrats-text {
+    margin-bottom: 40px;
+    color: white;
+    font-size: 20px;
+  }
+  .back-home-button {
+    padding: 12px 24px;
+    font-family: $monospace;
+    border: 1px solid $color3;
+    background-color: $color1;
+    color: rgb(226, 242, 255);
+    border-radius: 20px;
+  }
+}
+.score {
+  font-weight: 400;
+}
