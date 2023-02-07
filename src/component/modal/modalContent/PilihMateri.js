@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function PilihMateri({ closeMateri }) {
   const navigate = useNavigate();
-
   const getListMateri = async () => {
     const listMateri = await axios.get("/v1/api/question/materi", {
       headers: {
@@ -29,7 +28,7 @@ export default function PilihMateri({ closeMateri }) {
     }
   };
   useEffect(() => {
-    getListMateri();
+    setTimeout(getListMateri(), 500);
   }, []);
 
   return (
