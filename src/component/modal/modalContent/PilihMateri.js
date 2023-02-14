@@ -3,19 +3,9 @@ import close from "../../../assets/icon/close.svg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function PilihMateri({ closeMateri }) {
+export default function PilihMateri({ closeMateri, materiData }) {
   const navigate = useNavigate();
-  const getListMateri = async () => {
-    const listMateri = await axios.get("/v1/api/question/materi", {
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
-      },
-    });
-    setMateri(listMateri.data.data);
-    console.log(materi);
-  };
-  const [materi, setMateri] = useState([]);
-
+  console.log(materiData);
   const tabQuest = (id, alreadyAnswer) => {
     const paramObj = { materi: id };
     const searchParam = new URLSearchParams(paramObj);
@@ -27,9 +17,6 @@ export default function PilihMateri({ closeMateri }) {
         : navigate("/question?" + searchParam.toString());
     }
   };
-  useEffect(() => {
-    setTimeout(getListMateri(), 500);
-  }, []);
 
   return (
     <>
@@ -41,8 +28,8 @@ export default function PilihMateri({ closeMateri }) {
       />
       <h1>Pilih Materi</h1>
       <div id="list-materi-container">
-        {materi.length ? (
-          materi.map((e, i) => {
+        {materiData.length ? (
+          materiData.map((e, i) => {
             return (
               <div
                 className="list-materi-item"

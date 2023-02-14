@@ -48,6 +48,18 @@ function Home() {
     );
     dispatch(editProfile({ profile: respons.data.data }));
   };
+  const getListMateri = async () => {
+    const listMateri = await axios.get("/v1/api/question/materi", {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+    });
+    setMateri(listMateri.data.data);
+    console.log(materi);
+    setMateriModal(true);
+  };
+  const [materi, setMateri] = useState([]);
+
   useEffect(() => {
     getSchoolName();
   }, []);
@@ -72,7 +84,7 @@ function Home() {
           <button
             onClick={() => {
               localStorage.getItem("schoolId")
-                ? setMateriModal(true)
+                ? getListMateri()
                 : setPopup(true);
             }}
           >
@@ -106,7 +118,7 @@ function Home() {
           <AdminLogin closeAdmin={closeModal} />
         </Modal>
         <Modal popupControl={materiModal} closePopup={closeModal}>
-          <PilihMateri closeMateri={closeModal} />
+          <PilihMateri closeMateri={closeModal} materiData={materi} />
         </Modal>
       </main>
     </>
